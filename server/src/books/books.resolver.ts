@@ -1,10 +1,13 @@
 import { Resolver, Query, Mutation, Args, ID } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 import { BooksService } from './books.service';
 import { Book } from './entities/book.entity';
 import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
+import { GqlAuthGuard } from '../auth/gql-auth.guard';
 
 @Resolver(() => Book)
+@UseGuards(GqlAuthGuard)
 export class BooksResolver {
   constructor(private readonly booksService: BooksService) {}
 
