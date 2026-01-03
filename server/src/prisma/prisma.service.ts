@@ -1,21 +1,20 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
-import { PrismaLibSql } from '@prisma/adapter-libsql';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   constructor() {
-    const adapter = new PrismaLibSql({
-      url: 'file:prisma/dev.db',
-    });
-    super({ adapter });
+    super();
+    console.log('PrismaService initialized (Prisma 6 with built-in SQLite driver)');
   }
 
   async onModuleInit() {
     await this.$connect();
+    console.log('Prisma connected successfully');
   }
 
   async onModuleDestroy() {
     await this.$disconnect();
   }
 }
+
