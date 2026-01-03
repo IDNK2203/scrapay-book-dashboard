@@ -16,8 +16,8 @@
 | **Phase 3: Core Features** |
 | 3.1 | Book Listing | Moderate | 2-3h | ✅ Completed |
 | 3.2 | Book Creation | Moderate | 2-3h | ✅ Completed |
-| 3.3 | Book Editing | Moderate | 2-3h | ⬜ Not Started |
-| 3.4 | Book Deletion | Simple | 1-2h | ⬜ Not Started |
+| 3.3 | Book Editing | Moderate | 2-3h | ✅ Completed |
+| 3.4 | Book Deletion | Simple | 1-2h | ✅ Completed |
 | **Phase 4: Polish & Deploy** |
 | 4.1 | UI Polish & Responsiveness | Simple | 2-3h | ⬜ Not Started |
 | 4.2 | Error Handling | Simple | 2-3h | ⬜ Not Started |
