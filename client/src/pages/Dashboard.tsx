@@ -19,13 +19,8 @@ import {
 import { FiBookOpen } from 'react-icons/fi';
 import BookTable, { type Book } from '../components/BookTable';
 import CreateBookModal from '../components/CreateBookModal';
-// Actually, let's stick to standard Chakra Toaster if possible or custom one.
-// The user has a "components/ui" folder? No, I found it didn't exist earlier.
-// So I will avoid importing from components/ui/toaster and use whatever mechanism is standard or just console log for now if Toaster is complex.
-// Wait, Chakra v3 uses an imported `toaster` object usually. I'll rely on global toaster if configured, or just skip it for now and add basic console logs/alerts to be safe, then refine.
-// BUT, better user experience is crucial.
-// Let's try to find where Toaster is defined. If not, I'll assume standard setup or just use basic alert/console for this iteration to avoid import errors.
-// REVISION: I will use standard console methods for now to ensure functionality first, then refine UI polish in Story 4.2 (Error Handling & Polish).
+import EditBookModal from '../components/EditBookModal';
+import DeleteConfirmDialog from '../components/DeleteConfirmDialog';
 
 // Chakra UI v3 Avatar components
 const { Root: Avatar, Image: AvatarImage } = AvatarNamespace;
@@ -53,6 +48,23 @@ const CREATE_BOOK = gql`
   }
 `;
 
+const UPDATE_BOOK = gql`
+  mutation UpdateBook($id: ID!, $input: UpdateBookInput!) {
+    updateBook(id: $id, input: $input) {
+      id
+      name
+      author
+      description
+    }
+  }
+`;
+
+const DELETE_BOOK = gql`
+  mutation DeleteBook($id: ID!) {
+    deleteBook(id: $id)
+  }
+`;
+
 interface GetBooksData {
   books: Book[];
 }
@@ -64,9 +76,19 @@ export default function Dashboard() {
     refetchQueries: [{ query: GET_BOOKS }],
     awaitRefetchQueries: true,
   });
+  const [updateBook, { loading: updating }] = useMutation(UPDATE_BOOK, {
+    refetchQueries: [{ query: GET_BOOKS }],
+    awaitRefetchQueries: true,
+  });
+  const [deleteBook, { loading: deleting }] = useMutation(DELETE_BOOK, {
+    refetchQueries: [{ query: GET_BOOKS }],
+    awaitRefetchQueries: true,
+  });
   
-  // Use local state for open/close
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Modal states
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingBook, setEditingBook] = useState<Book | null>(null);
+  const [deletingBook, setDeletingBook] = useState<Book | null>(null);
   
   const handleLogout = () => {
     logout({
@@ -79,20 +101,43 @@ export default function Dashboard() {
   const handleCreateBook = async (bookData: any) => {
     try {
       await createBook({ variables: { input: bookData } });
-      // toaster.create({ title: "Book added", type: "success" }) // Commented out until toaster setup verified
       console.log("Book added successfully");
     } catch (err) {
       console.error("Failed to add book", err);
-      // toaster.create({ title: "Error adding book", type: "error" })
     }
   };
 
   const handleEdit = (book: Book) => {
-    console.log('Edit book:', book);
+    setEditingBook(book);
+  };
+
+  const handleUpdateBook = async (bookData: any) => {
+    if (!editingBook) return;
+    try {
+      await updateBook({ variables: { id: editingBook.id, input: bookData } });
+      console.log("Book updated successfully");
+      setEditingBook(null);
+    } catch (err) {
+      console.error("Failed to update book", err);
+    }
   };
 
   const handleDelete = (bookId: string) => {
-    console.log('Delete book:', bookId);
+    const book = data?.books.find(b => b.id === bookId);
+    if (book) {
+      setDeletingBook(book);
+    }
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!deletingBook) return;
+    try {
+      await deleteBook({ variables: { id: deletingBook.id } });
+      console.log("Book deleted successfully");
+      setDeletingBook(null);
+    } catch (err) {
+      console.error("Failed to delete book", err);
+    }
   };
 
   return (
@@ -133,7 +178,7 @@ export default function Dashboard() {
             </Box>
             <Button 
               colorPalette="purple" 
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsCreateModalOpen(true)}
             >
               <Icon as={FiBookOpen} />
               Add Book
@@ -183,7 +228,7 @@ export default function Dashboard() {
                       colorPalette="purple" 
                       variant="outline" 
                       mt={2}
-                      onClick={() => setIsModalOpen(true)}
+                      onClick={() => setIsCreateModalOpen(true)}
                     >
                       Add First Book
                     </Button>
@@ -201,10 +246,26 @@ export default function Dashboard() {
         </VStack>
 
         <CreateBookModal 
-          isOpen={isModalOpen} 
-          onClose={() => setIsModalOpen(false)} 
+          isOpen={isCreateModalOpen} 
+          onClose={() => setIsCreateModalOpen(false)} 
           onSubmit={handleCreateBook}
           isLoading={creating}
+        />
+
+        <EditBookModal
+          isOpen={!!editingBook}
+          onClose={() => setEditingBook(null)}
+          onSubmit={handleUpdateBook}
+          isLoading={updating}
+          book={editingBook}
+        />
+
+        <DeleteConfirmDialog
+          isOpen={!!deletingBook}
+          onClose={() => setDeletingBook(null)}
+          onConfirm={handleConfirmDelete}
+          isLoading={deleting}
+          bookName={deletingBook?.name || ''}
         />
       </Container>
     </Box>
