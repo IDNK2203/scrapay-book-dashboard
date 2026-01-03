@@ -5,17 +5,17 @@
 | ID | Story Title | Complexity | Est. Hours | Status |
 |----|-------------|------------|------------|--------|
 | **Phase 1: Foundation** |
-| 1.0 | Git & GitHub Setup | Simple | 0.5h | ⬜ Not Started |
-| 1.1 | Project Scaffolding | Simple | 1-2h | ⬜ Not Started |
-| 1.2 | Database Setup (Prisma + SQLite) | Simple | 1-2h | ⬜ Not Started |
-| 1.3 | GraphQL API Foundation | Moderate | 3-4h | ⬜ Not Started |
+| 1.0 | Git & GitHub Setup | Simple | 0.5h | ✅ Completed |
+| 1.1 | Project Scaffolding | Simple | 1-2h | ✅ Completed |
+| 1.2 | Database Setup (Prisma + SQLite) | Simple | 1-2h | ✅ Completed |
+| 1.3 | GraphQL API Foundation | Moderate | 3-4h | ✅ Completed |
 | **Phase 2: Authentication** |
-| 2.1 | Auth0 Backend Integration | Complex | 4-6h | ⬜ Not Started |
-| 2.2 | Auth0 Frontend Integration | Moderate | 3-4h | ⬜ Not Started |
-| 2.3 | Protected Routes & Guards | Moderate | 2-3h | ⬜ Not Started |
+| 2.1 | Auth0 Backend Integration | Complex | 4-6h | ✅ Completed |
+| 2.2 | Auth0 Frontend Integration | Moderate | 3-4h | ✅ Completed |
+| 2.3 | Protected Routes & Guards | Moderate | 2-3h | ✅ Completed |
 | **Phase 3: Core Features** |
-| 3.1 | Book Listing | Moderate | 2-3h | ⬜ Not Started |
-| 3.2 | Book Creation | Moderate | 2-3h | ⬜ Not Started |
+| 3.1 | Book Listing | Moderate | 2-3h | ✅ Completed |
+| 3.2 | Book Creation | Moderate | 2-3h | ✅ Completed |
 | 3.3 | Book Editing | Moderate | 2-3h | ⬜ Not Started |
 | 3.4 | Book Deletion | Simple | 1-2h | ⬜ Not Started |
 | **Phase 4: Polish & Deploy** |
