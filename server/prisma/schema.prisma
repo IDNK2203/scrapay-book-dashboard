@@ -12,6 +12,7 @@ datasource db {
 
 model Book {
   id          String   @id @default(uuid())
+  userId      String   @map("user_id")
   name        String
   author      String
   description String?

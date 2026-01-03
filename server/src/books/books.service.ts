@@ -7,32 +7,46 @@ import { UpdateBookInput } from './dto/update-book.input';
 export class BooksService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createBookInput: CreateBookInput) {
+  async create(userId: string, createBookInput: CreateBookInput) {
     return this.prisma.book.create({
-      data: createBookInput,
+      data: {
+        ...createBookInput,
+        userId,
+      },
     });
   }
 
-  async findAll() {
+  async findAll(userId: string) {
     return this.prisma.book.findMany({
+      where: { userId },
       orderBy: { createdAt: 'desc' },
     });
   }
 
-  async findOne(id: string) {
-    return this.prisma.book.findUnique({
-      where: { id },
+  async findOne(userId: string, id: string) {
+    return this.prisma.book.findFirst({
+      where: { id, userId },
     });
   }
 
-  async update(id: string, updateBookInput: UpdateBookInput) {
+  async update(userId: string, id: string, updateBookInput: UpdateBookInput) {
+    // First check ownership
+    const book = await this.findOne(userId, id);
+    if (!book) {
+      return null;
+    }
     return this.prisma.book.update({
       where: { id },
       data: updateBookInput,
     });
   }
 
-  async remove(id: string) {
+  async remove(userId: string, id: string) {
+    // First check ownership
+    const book = await this.findOne(userId, id);
+    if (!book) {
+      return false;
+    }
     await this.prisma.book.delete({
       where: { id },
     });
