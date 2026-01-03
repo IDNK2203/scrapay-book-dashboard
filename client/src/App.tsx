@@ -1,5 +1,6 @@
 import { Auth0Provider } from '@auth0/auth0-react';
 import { Routes, Route } from 'react-router-dom';
+import { ApolloProvider } from './lib/apollo';
 import Login from './pages/Login';
 import Callback from './pages/Callback';
 import Dashboard from './pages/Dashboard';
@@ -19,20 +20,23 @@ function App() {
         audience: audience,
       }}
     >
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/callback" element={<Callback />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
+      <ApolloProvider>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/callback" element={<Callback />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </ApolloProvider>
     </Auth0Provider>
   );
 }
 
 export default App;
+
