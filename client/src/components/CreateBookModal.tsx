@@ -43,44 +43,88 @@ export default function CreateBookModal({ isOpen, onClose, onSubmit, isLoading }
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
-      <Dialog.Backdrop />
+      <Dialog.Backdrop style={{ backdropFilter: 'blur(10px)', background: 'rgba(0,0,0,0.5)' }} />
       <Dialog.Positioner>
-        <Dialog.Content>
+        <Dialog.Content style={{ 
+          background: 'var(--bg-panel)', 
+          color: 'var(--text-primary)',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: 'var(--shadow-card)'
+        }}>
           <Dialog.Header>
-            <Dialog.Title>Add New Book</Dialog.Title>
+            <Dialog.Title style={{ fontSize: '20px', fontWeight: 700 }}>Add New Book</Dialog.Title>
           </Dialog.Header>
           <Dialog.Body>
             <form id="create-book-form" onSubmit={handleSubmit(handleFormSubmit)}>
               <VStack gap={4} align="stretch">
                 <Stack gap={1}>
-                  <Dialog.Title as="label" fontSize="sm" fontWeight="medium">Book Name</Dialog.Title>
-                  <Input {...register('name')} placeholder="Enter book name" />
-                  {errors.name && <Dialog.Description color="red.500" fontSize="sm">{errors.name.message}</Dialog.Description>}
+                  <Dialog.Title as="label" fontSize="sm" fontWeight="medium" color="var(--text-secondary)">Book Name</Dialog.Title>
+                  <Input 
+                    {...register('name')} 
+                    placeholder="Enter book name" 
+                    style={{ 
+                      background: 'rgba(255,255,255,0.03)',
+                      borderColor: 'rgba(255,255,255,0.1)',
+                      color: 'var(--text-primary)'
+                    }}
+                    _focus={{ borderColor: 'var(--accent-primary)' }}
+                  />
+                  {errors.name && <Dialog.Description color="red.400" fontSize="sm">{errors.name.message}</Dialog.Description>}
                 </Stack>
 
                 <Stack gap={1}>
-                   <Dialog.Title as="label" fontSize="sm" fontWeight="medium">Author</Dialog.Title>
-                  <Input {...register('author')} placeholder="Enter author name" />
-                  {errors.author && <Dialog.Description color="red.500" fontSize="sm">{errors.author.message}</Dialog.Description>}
+                   <Dialog.Title as="label" fontSize="sm" fontWeight="medium" color="var(--text-secondary)">Author</Dialog.Title>
+                  <Input 
+                    {...register('author')} 
+                    placeholder="Enter author name" 
+                    style={{ 
+                      background: 'rgba(255,255,255,0.03)',
+                      borderColor: 'rgba(255,255,255,0.1)',
+                      color: 'var(--text-primary)'
+                    }}
+                    _focus={{ borderColor: 'var(--accent-primary)' }}
+                  />
+                  {errors.author && <Dialog.Description color="red.400" fontSize="sm">{errors.author.message}</Dialog.Description>}
                 </Stack>
 
                 <Stack gap={1}>
-                   <Dialog.Title as="label" fontSize="sm" fontWeight="medium">Description</Dialog.Title>
-                  <Textarea {...register('description')} placeholder="Optional description" />
-                  {errors.description && <Dialog.Description color="red.500" fontSize="sm">{errors.description.message}</Dialog.Description>}
+                   <Dialog.Title as="label" fontSize="sm" fontWeight="medium" color="var(--text-secondary)">Description</Dialog.Title>
+                  <Textarea 
+                    {...register('description')} 
+                    placeholder="Optional description" 
+                    style={{ 
+                      background: 'rgba(255,255,255,0.03)',
+                      borderColor: 'rgba(255,255,255,0.1)',
+                      color: 'var(--text-primary)'
+                    }}
+                    _focus={{ borderColor: 'var(--accent-primary)' }}
+                  />
+                  {errors.description && <Dialog.Description color="red.400" fontSize="sm">{errors.description.message}</Dialog.Description>}
                 </Stack>
               </VStack>
             </form>
           </Dialog.Body>
           <Dialog.Footer>
             <Dialog.CloseTrigger asChild>
-              <Button variant="outline" onClick={onClose} disabled={isLoading}>Cancel</Button>
+              <Button 
+                variant="ghost" 
+                onClick={onClose} 
+                disabled={isLoading}
+                color="var(--text-secondary)"
+                _hover={{ bg: 'rgba(255,255,255,0.05)' }}
+              >
+                Cancel
+              </Button>
             </Dialog.CloseTrigger>
             <Button 
               type="submit" 
               form="create-book-form" 
               loading={isLoading}
-              colorPalette="purple"
+              bg="var(--accent-primary)"
+              color="black"
+              fontWeight="bold"
+              _hover={{ opacity: 0.9 }}
             >
               Add Book
             </Button>

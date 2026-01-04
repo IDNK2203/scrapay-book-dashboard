@@ -1,0 +1,54 @@
+:root {
+  /* Core Monochrome Palette */
+  --bg-app: #050505;          /* Deepest Black */
+  --bg-panel: #0A0A0A;        /* Panel Black */
+  --bg-surface: #121212;      /* Card Surface */
+  
+  /* Text Layers */
+  --text-primary: #EDEDED;    /* High Emphasis */
+  --text-secondary: #A0A0A0;  /* Medium Emphasis */
+  --text-muted: #505050;      /* Low Emphasis */
+
+  /* Accents (Neon) */
+  --accent-primary: #BDFF00;  /* "Antigravity Green" */
+  --accent-glow: rgba(189, 255, 0, 0.4);
+
+  /* Spacing & Layout */
+  --space-unit: 4px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  
+  /* Depth */
+  --shadow-card: 0 0 0 1px #333, 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-glow: 0 0 0 1px var(--accent-primary), 0 0 40px var(--accent-glow);
+
+  /* Animation Control */
+  --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+
+  /* Font */
+  --font-primary: 'Inter', sans-serif;
+}
+
+[data-theme='light'] {
+  /* Inverted Palette for Light Mode */
+  --bg-app: #F5F5F7;
+  --bg-panel: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --text-primary: #111111;
+  --text-secondary: #666666;
+  --shadow-card: 0 4px 12px rgba(0,0,0,0.05);
+  --shadow-glow: 0 0 0 1px var(--accent-primary), 0 0 20px rgba(189, 255, 0, 0.2);
+}
+
+body {
+    background-color: var(--bg-app);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    margin: 0;
+    padding: 0;
+    transition: background-color var(--duration-normal) var(--ease-smooth), color var(--duration-normal) var(--ease-smooth);
+}

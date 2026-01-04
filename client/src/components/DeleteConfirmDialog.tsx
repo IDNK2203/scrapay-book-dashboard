@@ -27,26 +27,40 @@ export default function DeleteConfirmDialog({
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={(e) => !e.open && onClose()}>
-      <Dialog.Backdrop />
+      <Dialog.Backdrop style={{ backdropFilter: 'blur(10px)', background: 'rgba(0,0,0,0.5)' }} />
       <Dialog.Positioner>
-        <Dialog.Content>
+        <Dialog.Content style={{ 
+          background: 'var(--bg-panel)', 
+          color: 'var(--text-primary)',
+          borderRadius: 'var(--radius-lg)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: 'var(--shadow-card)'
+        }}>
           <Dialog.Header>
-            <Dialog.Title>Delete Book</Dialog.Title>
+            <Dialog.Title style={{ fontSize: '20px', fontWeight: 700 }}>Delete Book</Dialog.Title>
           </Dialog.Header>
           <Dialog.Body>
-            <Text>
-              Are you sure you want to delete <strong>"{bookName}"</strong>? This action cannot be undone.
+            <Text color="var(--text-secondary)">
+              Are you sure you want to delete <strong style={{ color: 'var(--text-primary)' }}>"{bookName}"</strong>? This action cannot be undone.
             </Text>
           </Dialog.Body>
           <Dialog.Footer>
             <HStack gap={3}>
-              <Button variant="outline" onClick={onClose} disabled={isLoading}>
+              <Button 
+                variant="ghost" 
+                onClick={onClose} 
+                disabled={isLoading}
+                color="var(--text-secondary)"
+                _hover={{ bg: 'rgba(255,255,255,0.05)' }}
+              >
                 Cancel
               </Button>
               <Button 
-                colorPalette="red" 
+                bg="#ff4444" // Specific red for delete
+                color="white"
                 onClick={handleConfirm}
                 loading={isLoading}
+                _hover={{ bg: '#ff2222' }}
               >
                 Delete
               </Button>
