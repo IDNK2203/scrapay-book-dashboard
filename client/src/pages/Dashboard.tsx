@@ -146,7 +146,14 @@ export default function Dashboard() {
   return (
     <AppShell>
       {/* Page Header */}
-      <Box mb={8} display="flex" justifyContent="space-between" alignItems="center">
+      <Box 
+        mb={8} 
+        display="flex" 
+        flexDirection={{ base: 'column', md: 'row' }} 
+        justifyContent="space-between" 
+        alignItems={{ base: 'flex-start', md: 'center' }} 
+        gap={{ base: 4, md: 0 }}
+      >
         <VStack align="flex-start" gap={1}>
           <Heading size="2xl" style={{ color: 'var(--text-primary)', fontWeight: 800, letterSpacing: '-0.03em' }}>
             Library
@@ -155,7 +162,9 @@ export default function Dashboard() {
             Manage your personal collection
           </Text>
         </VStack>
-        <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        <Box width={{ base: '100%', md: 'auto' }}>
+          <SearchBar value={searchQuery} onChange={setSearchQuery} />
+        </Box>
       </Box>
 
       {/* Main Content */}

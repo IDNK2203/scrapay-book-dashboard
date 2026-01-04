@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import type { Variants } from 'framer-motion';
 import { LuBookOpen } from 'react-icons/lu';
 import { staggerContainer, fadeInUp } from '../theme/animations';
 
@@ -33,14 +34,14 @@ const styles = {
     marginBottom: '60px',
   },
   heroText: {
-    fontSize: '64px', // Big hero text
+    fontSize: 'var(--font-size-hero)', // Responsive clamp
     fontWeight: 800,
     lineHeight: 1.1,
     letterSpacing: '-0.03em',
     marginBottom: '8px',
   },
   subHero: {
-    fontSize: '64px',
+    fontSize: 'var(--font-size-subhero)',
     fontWeight: 300, // Light weight for contrast
     color: 'var(--text-secondary)',
     lineHeight: 1.1,
@@ -98,11 +99,63 @@ export default function Login() {
     );
   }
 
+  // Animation variants for specific floating books
+  const floatingBook: Variants = {
+    initial: { y: 0, rotateY: 0, rotateZ: 0 },
+    animate: (i: number) => ({
+      y: [0, -20, 0],
+      rotateY: [0, i % 2 === 0 ? 10 : -10, 0],
+      rotateZ: [0, i % 2 === 0 ? 5 : -5, 0],
+      transition: {
+        duration: 4 + i,
+        repeat: Infinity,
+        ease: "easeInOut"
+      }
+    })
+  };
+
   return (
     <div style={styles.container}>
+      {/* 3D Background Layer */}
+      <div style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        perspective: '1000px',
+        zIndex: 0
+      }}>
+        {/* Abstract "Books" */}
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            custom={i}
+            variants={floatingBook}
+            initial="initial"
+            animate="animate"
+            style={{
+              position: 'absolute',
+              width: i % 2 === 0 ? '60px' : '80px',
+              height: i % 2 === 0 ? '80px' : '110px',
+              background: i === 0 ? 'var(--accent-primary)' : 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.1)',
+              borderRadius: '4px',
+              top: `${20 + (i * 15)}%`,
+              left: `${10 + (i * 15)}%`,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+              zIndex: i === 0 ? 1 : 0,
+              filter: 'blur(1px)'
+            }}
+          />
+        ))}
+      </div>
+
       {/* Brand */}
       <motion.div 
-        style={styles.brand}
+        style={{...styles.brand, zIndex: 10}}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.8 }}
@@ -124,7 +177,7 @@ export default function Login() {
         variants={staggerContainer} 
         initial="hidden" 
         animate="show"
-        style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', zIndex: 10 }}
       >
         <div style={styles.hero}>
           <div style={{ overflow: 'hidden' }}>

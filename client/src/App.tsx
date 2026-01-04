@@ -4,6 +4,7 @@ import { ApolloProvider } from './lib/apollo';
 import Login from './pages/Login';
 import Callback from './pages/Callback';
 import Dashboard from './pages/Dashboard';
+import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
@@ -24,11 +25,19 @@ function App() {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/callback" element={<Callback />} />
-          <Route
+            <Route
             path="/dashboard"
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
               </ProtectedRoute>
             }
           />

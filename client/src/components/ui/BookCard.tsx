@@ -1,7 +1,7 @@
+// BookCard.tsx Refined
 import React from 'react';
 import { motion } from 'framer-motion';
 import { LuPencil, LuTrash2 } from 'react-icons/lu';
-import { revealVar } from '../../theme/animations';
 
 interface Book {
   id: string;
@@ -26,9 +26,10 @@ const styles = {
     flexDirection: 'column' as const,
     justifyContent: 'space-between',
     minHeight: '200px',
-    border: '1px solid transparent',
+    border: '1px solid rgba(255,255,255,0.1)', // Default visible border
     cursor: 'pointer',
     overflow: 'hidden',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
   },
   info: {
     zIndex: 2,
@@ -50,6 +51,7 @@ const styles = {
     gap: '8px',
     marginTop: '20px',
     zIndex: 3,
+    // opacity handled by motion
   },
   iconButton: {
     background: 'rgba(255,255,255,0.05)',
@@ -64,39 +66,27 @@ const styles = {
     color: 'var(--text-primary)',
     transition: 'background 0.2s',
   },
-  glow: {
-    position: 'absolute' as const,
-    bottom: '-50px',
-    right: '-50px',
-    width: '150px',
-    height: '150px',
-    background: 'radial-gradient(circle, var(--accent-glow) 0%, transparent 70%)',
-    opacity: 0.5,
-    pointerEvents: 'none' as const,
-    zIndex: 1,
-  }
 };
 
 export const BookCard: React.FC<BookCardProps> = ({ book, onEdit, onDelete }) => {
   return (
     <motion.div 
       style={styles.card}
-      whileHover={{ 
-        scale: 1.02, 
-        borderColor: 'var(--accent-primary)',
-        boxShadow: 'var(--shadow-glow)'
-      }}
+      whileHover="hover"
       initial="initial"
-      whileTap={{ scale: 0.98 }}
     >
       <div style={styles.info}>
         <div style={styles.title}>{book.title}</div>
         <div style={styles.author}>{book.author}</div>
       </div>
       
+      {/* Actions: Revealed on hover */}
       <motion.div 
         style={styles.actions} 
-        variants={revealVar} // Inherits "hover" state from parent
+        variants={{
+          initial: { opacity: 0, y: 10 },
+          hover: { opacity: 1, y: 0, transition: { duration: 0.2 } }
+        }}
       >
         <button 
           style={styles.iconButton}
@@ -113,8 +103,6 @@ export const BookCard: React.FC<BookCardProps> = ({ book, onEdit, onDelete }) =>
           <LuTrash2 size={18} />
         </button>
       </motion.div>
-      
-      <div style={styles.glow} />
     </motion.div>
   );
 };

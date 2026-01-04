@@ -19,7 +19,7 @@ interface BookGridProps {
 const styles = {
   grid: {
     display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+    gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', // Reduced min-width for mobile
     gap: '24px',
     listStyle: 'none',
     padding: 0,

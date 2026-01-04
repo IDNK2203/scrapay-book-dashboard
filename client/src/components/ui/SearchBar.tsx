@@ -14,7 +14,7 @@ const styles = {
   },
   inputWrapper: {
     background: 'rgba(255,255,255,0.05)',
-    border: '1px solid rgba(255,255,255,0.1)',
+    border: '1px solid var(--accent-primary)',
     borderRadius: '100px',
     display: 'flex',
     alignItems: 'center',
@@ -24,7 +24,7 @@ const styles = {
   },
   focused: {
     background: 'var(--bg-panel)',
-    borderColor: 'var(--accent-primary)',
+    // borderColor: 'var(--accent-primary)',
     boxShadow: 'var(--shadow-glow)',
   },
   input: {

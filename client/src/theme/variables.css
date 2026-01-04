@@ -1,6 +1,6 @@
 :root {
   /* Core Monochrome Palette */
-  --bg-app: #050505;          /* Deepest Black */
+  --bg-app: #1d1c1c;          /* Deepest Black */
   --bg-panel: #0A0A0A;        /* Panel Black */
   --bg-surface: #121212;      /* Card Surface */
   
@@ -9,9 +9,13 @@
   --text-secondary: #A0A0A0;  /* Medium Emphasis */
   --text-muted: #505050;      /* Low Emphasis */
 
-  /* Accents (Neon) */
-  --accent-primary: #BDFF00;  /* "Antigravity Green" */
-  --accent-glow: rgba(189, 255, 0, 0.4);
+  /* Accents (Neon - User Tuned) */
+  --accent-primary: #FF7900;  /* "Safety Orange" */
+  --accent-secondary: #0A9468; /* "Deep Green" */
+  
+  /* Derived Glows */
+  --accent-glow: rgba(255, 121, 0, 0.4);
+  --accent-glow-secondary: rgba(10, 148, 104, 0.4);
 
   /* Spacing & Layout */
   --space-unit: 4px;
@@ -25,12 +29,36 @@
 
   /* Animation Control */
   --ease-elastic: cubic-bezier(0.68, -0.6, 0.32, 1.6);
-  --ease-smooth: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --duration-fast: 200ms;
-  --duration-normal: 400ms;
+  /* Responsive Typography with Clamp */
+  /* min 2.5rem at 400px -> max 4rem at 1200px */
+  --font-size-hero: clamp(2.5rem, 5vw + 1rem, 4rem);
+  --font-size-subhero: clamp(2.5rem, 5vw + 1rem, 4rem);
+  
+  /* Animations */
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 0.2s;
+  --duration-normal: 0.3s;
 
   /* Font */
   --font-primary: 'Inter', sans-serif;
+}
+
+/* Base resets & typography */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Mobile-first adjustments */
+@media (max-width: 768px) {
+  :root {
+    --space-unit: 8px; /* Larger touch targets */
+  }
 }
 
 [data-theme='light'] {
@@ -41,7 +69,28 @@
   --text-primary: #111111;
   --text-secondary: #666666;
   --shadow-card: 0 4px 12px rgba(0,0,0,0.05);
-  --shadow-glow: 0 0 0 1px var(--accent-primary), 0 0 20px rgba(189, 255, 0, 0.2);
+  --shadow-glow: 0 0 0 1px var(--accent-primary), 0 0 20px rgba(255, 121, 0, 0.2);
+
+  /* Light Mode Overrides for Accessibility if needed */
+  /* Keeping base colors for now, but can tune if contrast is low on white */
+}
+
+/* Dark Mode specific tuning for "Neon" feel */
+[data-theme='dark'] {
+  --accent-primary: #FF8C00; /* Slightly brighter Orange */
+  --accent-secondary: #00E676; /* Brighter Green */
+  
+  /* High Contrast Dark Mode */
+  --bg-app: #1d1c1c;    /* Slightly lighter black for main content */
+  --bg-panel: #000000;  /* Pure black for sidebar/panels */
+  --bg-surface: #0A0A0A; /* Card surface */
+}
+
+/* Mobile specific overrides if needed */
+@media (max-width: 768px) {
+  .full-width-mobile {
+    width: 100% !important;
+  }
 }
 
 body {
