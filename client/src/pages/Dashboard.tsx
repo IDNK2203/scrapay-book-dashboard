@@ -9,6 +9,7 @@ import { SearchBar } from '../components/ui/SearchBar';
 import CreateBookModal from '../components/CreateBookModal';
 import EditBookModal from '../components/EditBookModal';
 import DeleteConfirmDialog from '../components/DeleteConfirmDialog';
+import { useNotify } from '../hooks/useNotify';
 
 // GraphQL query to fetch books
 const GET_BOOKS = gql`
@@ -82,13 +83,17 @@ export default function Dashboard() {
   const [deletingBook, setDeletingBook] = useState<Book | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Notification
+  const notify = useNotify();
+
   // Handlers
   const handleCreateBook = async (bookData: any) => {
     try {
       await createBook({ variables: { input: bookData } });
+      notify.success('Book created', `${bookData.title} has been added to your library.`);
       setIsCreateModalOpen(false);
     } catch (err) {
-      console.error("Failed to add book", err);
+      notify.error('Failed to create book', (err as Error).message);
     }
   };
 
@@ -96,9 +101,10 @@ export default function Dashboard() {
     if (!editingBook) return;
     try {
       await updateBook({ variables: { id: editingBook.id, input: bookData } });
+      notify.success('Book updated', 'Your changes have been saved.');
       setEditingBook(null);
     } catch (err) {
-      console.error("Failed to update book", err);
+      notify.error('Failed to update book', (err as Error).message);
     }
   };
 
@@ -111,9 +117,10 @@ export default function Dashboard() {
     if (!deletingBook) return;
     try {
       await deleteBook({ variables: { id: deletingBook.id } });
+      notify.success('Book deleted', `${deletingBook.name} has been removed.`);
       setDeletingBook(null);
     } catch (err) {
-      console.error("Failed to delete book", err);
+      notify.error('Failed to delete book', (err as Error).message);
     }
   };
 
