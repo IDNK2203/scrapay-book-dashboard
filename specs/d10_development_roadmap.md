@@ -20,8 +20,8 @@
 | 3.4 | Book Deletion | Simple | 1-2h | ✅ Completed |
 | **Phase 4: Polish & Deploy** |
 | 4.1 | UI Polish & Responsiveness | Simple | 2-3h | ✅ Completed |
-| 4.2 | Error Handling and Feedback | Simple | 2-3h | ✅ Not Started |
-| 4.3 | Deployment (Vercel + Render) | Moderate | 2-4h | ⬜ Not Started |
+| 4.2 | Error Handling and Feedback | Simple | 2-3h | ✅ Completed |
+| 4.3 | Deployment (Vercel + Render) | Moderate | 2-4h | 🔄 In Progress |
 
 **Total Estimated Time**: 28-42 hours
 
