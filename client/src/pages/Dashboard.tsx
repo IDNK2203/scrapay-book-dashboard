@@ -1,8 +1,7 @@
 import { useQuery, useMutation } from '@apollo/client/react';
-import { gql } from '@apollo/client';
 import { useState } from 'react';
 import { Heading, Text, VStack, Button, Icon, Box } from '@chakra-ui/react';
-import { FiPlus } from 'react-icons/fi'; // Using simple plus icon
+import { FiPlus } from 'react-icons/fi';
 import { AppShell } from '../components/layout/AppShell';
 import { BookGrid } from '../components/ui/BookGrid';
 import { SearchBar } from '../components/ui/SearchBar';
@@ -10,57 +9,9 @@ import CreateBookModal from '../components/CreateBookModal';
 import EditBookModal from '../components/EditBookModal';
 import DeleteConfirmDialog from '../components/DeleteConfirmDialog';
 import { useNotify } from '../hooks/useNotify';
-
-// GraphQL query to fetch books
-const GET_BOOKS = gql`
-  query GetBooks {
-    books {
-      id
-      name
-      author
-      description
-    }
-  }
-`;
-
-const CREATE_BOOK = gql`
-  mutation CreateBook($input: CreateBookInput!) {
-    createBook(input: $input) {
-      id
-      name
-      author
-      description
-    }
-  }
-`;
-
-const UPDATE_BOOK = gql`
-  mutation UpdateBook($id: ID!, $input: UpdateBookInput!) {
-    updateBook(id: $id, input: $input) {
-      id
-      name
-      author
-      description
-    }
-  }
-`;
-
-const DELETE_BOOK = gql`
-  mutation DeleteBook($id: ID!) {
-    deleteBook(id: $id)
-  }
-`;
-
-interface Book {
-  id: string;
-  name: string;
-  author: string;
-  description?: string;
-}
-
-interface GetBooksData {
-  books: Book[];
-}
+import { GET_BOOKS } from '../lib/graphql/queries';
+import { CREATE_BOOK, UPDATE_BOOK, DELETE_BOOK } from '../lib/graphql/mutations';
+import type { Book, GetBooksData } from '../types/book';
 
 export default function Dashboard() {
   const { data, loading, error } = useQuery<GetBooksData>(GET_BOOKS);

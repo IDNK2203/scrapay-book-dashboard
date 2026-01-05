@@ -5,79 +5,13 @@ import { LuLayoutDashboard, LuBookOpen, LuSettings, LuLogOut, LuPanelLeftClose, 
 import { Box, Flex, Text, Avatar, Icon, Button } from '@chakra-ui/react';
 import { useTheme } from '../../theme/ThemeContext';
 import { motion } from 'framer-motion';
-
-// Quick inline styles for the "Antigravity" look using our variables
-const styles = {
-  container: {
-    height: '100vh',
-    position: 'sticky' as const,
-    top: 0,
-    backgroundColor: 'var(--bg-panel)',
-    borderRight: '1px solid rgba(255,255,255,0.05)',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    padding: '24px',
-    zIndex: 50,
-    transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-    overflow: 'hidden',
-  },
-  brand: {
-    marginBottom: '40px',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    fontSize: '20px',
-    fontWeight: 800,
-    letterSpacing: '-0.02em',
-    color: 'var(--text-primary)',
-    whiteSpace: 'nowrap' as const,
-    overflow: 'hidden',
-  },
-  navItem: {
-    display: 'flex',
-    alignItems: 'center',
-    gap: '12px',
-    padding: '12px 16px',
-    borderRadius: 'var(--radius-sm)',
-    color: 'var(--text-secondary)',
-    textDecoration: 'none',
-    marginBottom: '4px',
-    transition: 'all var(--duration-fast) var(--ease-smooth)',
-    fontSize: '14px',
-    fontWeight: 500,
-    whiteSpace: 'nowrap' as const,
-    overflow: 'hidden',
-  },
-  activeNavItem: {
-    backgroundColor: 'rgba(255,255,255,0.03)',
-    color: 'var(--text-primary)',
-    boxShadow: '0 0 0 1px rgba(255,255,255,0.05)',
-  },
-  userSection: {
-    marginTop: 'auto',
-    paddingTop: '20px',
-    borderTop: '1px solid rgba(255,255,255,0.05)',
-    display: 'flex',
-    flexDirection: 'column' as const,
-    gap: '12px',
-  },
-  toggleButton: {
-    position: 'absolute' as const,
-    top: '24px',
-    right: '-12px',
-    cursor: 'pointer',
-    background: 'var(--bg-panel)',
-    border: '1px solid rgba(255,255,255,0.1)',
-    borderRadius: '50%',
-    width: '24px',
-    height: '24px',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    color: 'var(--text-secondary)',
-    zIndex: 51,
-  }
-};
+import { 
+  sidebarStyles, 
+  getContainerStyle, 
+  getToggleStyle, 
+  getBrandStyle, 
+  getProfileCardStyle 
+} from '../../theme/sidebar.styles';
 
 export const Sidebar = () => {
   const { user, logout } = useAuth0();
@@ -86,43 +20,24 @@ export const Sidebar = () => {
 
   // Helper to get active styles
   const getNavLinkStyle = ({ isActive }: { isActive: boolean }) => ({
-    ...styles.navItem,
-    ...(isActive ? styles.activeNavItem : {}),
+    ...sidebarStyles.navItem,
+    ...(isActive ? sidebarStyles.activeNavItem : {}),
   });
 
   return (
-    <aside style={{ ...styles.container, width: isCollapsed ? '80px' : '280px', padding: isCollapsed ? '24px 12px' : '24px' }}>
+    <aside style={getContainerStyle(isCollapsed)}>
       {/* Collapse Toggle */}
       <div 
         role="button"
         onClick={() => setIsCollapsed(!isCollapsed)}
-        style={{
-          position: 'absolute',
-          top: '28px',
-          right: isCollapsed ? 'auto' : '20px',
-          left: isCollapsed ? '50%' : 'auto',
-          transform: isCollapsed ? 'translateX(-50%)' : 'none',
-          cursor: 'pointer',
-          color: 'var(--text-secondary)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center'
-        }}
+        style={getToggleStyle(isCollapsed)}
       >
         {isCollapsed ? <LuPanelLeftOpen size={20} /> : <LuPanelLeftClose size={20} />}
       </div>
 
       {/* Brand */}
-      <div style={{ ...styles.brand, justifyContent: isCollapsed ? 'center' : 'flex-start', marginTop: '40px' }}>
-        <div style={{ 
-          width: '32px', 
-          height: '32px', 
-          minWidth: '32px',
-          background: 'var(--accent-primary)', 
-          borderRadius: '8px',
-          display: 'grid',
-          placeItems: 'center'
-        }}>
+      <div style={getBrandStyle(isCollapsed)}>
+        <div style={sidebarStyles.brandIcon}>
           <LuBookOpen size={18} color="black" />
         </div>
         {!isCollapsed && <motion.span initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }}>Scrapay</motion.span>}
@@ -141,7 +56,7 @@ export const Sidebar = () => {
       </nav>
 
       {/* User Section & Theme Toggle */}
-      <div style={styles.userSection}>
+      <div style={sidebarStyles.userSection}>
         {/* Theme Toggle */}
         <Button 
           variant="ghost" 
@@ -179,12 +94,7 @@ export const Sidebar = () => {
           align="center" 
           gap="3" 
           direction={isCollapsed ? 'column' : 'row'}
-          style={{
-            padding: isCollapsed ? '8px 0' : '12px',
-            background: isCollapsed ? 'transparent' : 'rgba(255,255,255,0.02)',
-            borderRadius: 'var(--radius-md)',
-            border: isCollapsed ? 'none' : '1px solid rgba(255,255,255,0.05)'
-          }}
+          style={getProfileCardStyle(isCollapsed)}
         >
           <Avatar.Root size="sm">
             <Avatar.Fallback name={user?.name} bg="var(--accent-primary)" color="black" fontWeight="bold" />
@@ -205,3 +115,4 @@ export const Sidebar = () => {
     </aside>
   );
 };
+

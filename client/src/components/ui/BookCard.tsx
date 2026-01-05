@@ -26,13 +26,14 @@ const styles = {
     flexDirection: 'column' as const,
     justifyContent: 'space-between',
     minHeight: '200px',
-    border: '1px solid rgba(255,255,255,0.1)', // Default visible border
+    border: '1px solid rgba(255,255,255,0.1)',
     cursor: 'pointer',
     overflow: 'hidden',
     transition: 'border-color 0.2s, box-shadow 0.2s',
   },
   info: {
     zIndex: 2,
+    flex: 1,
   },
   title: {
     fontSize: '20px',
@@ -45,13 +46,23 @@ const styles = {
     fontSize: '14px',
     color: 'var(--text-secondary)',
     fontWeight: 500,
+    marginBottom: '12px',
+  },
+  description: {
+    fontSize: '13px',
+    color: 'var(--text-muted)',
+    lineHeight: 1.5,
+    display: '-webkit-box',
+    WebkitLineClamp: 3,
+    WebkitBoxOrient: 'vertical' as const,
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   },
   actions: {
     display: 'flex',
     gap: '8px',
     marginTop: '20px',
     zIndex: 3,
-    // opacity handled by motion
   },
   iconButton: {
     background: 'rgba(255,255,255,0.05)',
@@ -78,6 +89,9 @@ export const BookCard: React.FC<BookCardProps> = ({ book, onEdit, onDelete }) =>
       <div style={styles.info}>
         <div style={styles.title}>{book.title}</div>
         <div style={styles.author}>{book.author}</div>
+        {book.description && (
+          <div style={styles.description}>{book.description}</div>
+        )}
       </div>
       
       {/* Actions: Revealed on hover */}
