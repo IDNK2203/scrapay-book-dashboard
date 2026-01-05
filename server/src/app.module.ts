@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       playground: true,
+      introspection: true, // Required for GraphQL Playground in production
     }),
     PrismaModule,
     AuthModule,
